@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: EDB Api
+  version: '0.1'
+  description: 'API for accessing and changing EDB data.  This includes retrieving and adding Product data.  Retrieving and adding Contract Data. '
+servers:
+  - url: 'http://localhost:3000'
+    description: dev
+paths:
+  /products:
+    parameters: []
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product_code:
+                    type: string
+                    default: MTM
+                    description: product code
+                    example: MTM
+                  product_name:
+                    type: string
+                    example: Month to Month
+                  base_or_option:
+                    type: string
+                  claims_running_in_days:
+                    type: string
+                  allowable_number_of_people:
+                    type: string
+                  category:
+                    type: string
+                  minimum_purchase_number:
+                    type: string
+                  minimum_purchase_unit_quantity:
+                    type: string
+                required:
+                  - product_code
+              examples:
+                example-1: {}
+      operationId: get-products-for-category-date
+      tags:
+        - product endpoints
+      description: Get product list for given category and date
+      security:
+        - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/category'
+components:
+  schemas: {}
+  securitySchemes:
+    app_id:
+      name: appid
+      type: apiKey
+      in: query
+  parameters:
+    category:
+      name: category
+      in: query
+      description: '**ProductCategory**, *Example: monthly*. The category of a product. Must use with `date`.'
+      schema:
+        type: string
