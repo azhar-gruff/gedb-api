@@ -39,6 +39,8 @@ paths:
                     type: string
                   minimum_purchase_unit_quantity:
                     type: string
+                  test_field:
+                    type: string
               examples:
                 example-1: {}
       operationId: get-products-for-category-date
