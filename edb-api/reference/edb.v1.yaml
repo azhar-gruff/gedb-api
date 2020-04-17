@@ -21,7 +21,6 @@ paths:
                 properties:
                   product_code:
                     type: string
-                    default: MTM
                     description: product code
                     example: MTM
                   product_name:
@@ -39,16 +38,20 @@ paths:
                     type: string
                   minimum_purchase_unit_quantity:
                     type: string
+                required:
+                  - product_code
+                  - product_name
               examples:
                 example-1: {}
       operationId: get-products-for-category-date
       tags:
         - product endpoints
-      description: Get product list for given category and date
+      description: Get product list for given category and date from master table
       security:
         - app_id: []
       parameters:
         - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/date'
 components:
   schemas: {}
   securitySchemes:
@@ -64,3 +67,11 @@ components:
       description: '**ProductCategory**, *Example: monthly*. The category of a product. Must use with `date`.'
       schema:
         type: string
+      required: true
+    date:
+      name: date
+      in: query
+      description: '**Date** for which Product offering should be valid'
+      schema:
+        type: string
+      required: true
