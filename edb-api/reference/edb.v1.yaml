@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: EDB Api
+  title: GEDB Api
   version: '0.1'
-  description: 'API for accessing and changing EDB data.  This includes retrieving and adding Product data.  Retrieving and adding Contract Data. '
+  description: 'API for accessing and changing GEDB data.  This includes retrieving and adding Product data.  Retrieving and adding Contract Data. '
 servers:
   - url: 'http://localhost:3100'
     description: dev
