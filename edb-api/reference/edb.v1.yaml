@@ -7,10 +7,20 @@ servers:
   - url: 'http://localhost:3100'
     description: dev
 paths:
-  /products:
-    parameters: []
+  '/products/{category}/{date}':
+    parameters:
+      - schema:
+          type: string
+        name: category
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: date
+        in: path
+        required: true
     get:
-      summary: Your GET endpoint
+      summary: GET Products List endpoint
       responses:
         '200':
           description: OK
@@ -38,6 +48,14 @@ paths:
                     type: string
                   minimum_purchase_unit_quantity:
                     type: string
+                  Product_offering_name:
+                    type: string
+                  offer_start_date:
+                    type: string
+                  offer_end_date:
+                    type: string
+                  commodity_status:
+                    type: string
                 required:
                   - product_code
                   - product_name
@@ -47,11 +65,139 @@ paths:
       tags:
         - product endpoints
       description: Get product list for given category and date from master table
-      security:
-        - app_id: []
-      parameters:
-        - $ref: '#/components/parameters/category'
-        - $ref: '#/components/parameters/date'
+      parameters: []
+  '/products/{product_code}/{date}/child-products':
+    parameters:
+      - schema:
+          type: string
+        name: product_code
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: date
+        in: path
+        required: true
+    get:
+      summary: GET Product Children endpoint
+      tags:
+        - product endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  parent_product_code:
+                    type: string
+                    description: product code
+                    example: MTM
+                  parent_product_name:
+                    type: string
+                    example: Month to Month
+                  child_product_code:
+                    type: string
+                  child_product_name:
+                    type: string
+                  base_or_option:
+                    type: string
+                  claims_running_in_days:
+                    type: string
+                  allowable_number_of_people:
+                    type: string
+                  category:
+                    type: string
+                  minimum_purchase_number:
+                    type: string
+                  minimum_purchase_unit_quantity:
+                    type: string
+                  product_offering_name:
+                    type: string
+                  offer_start_date:
+                    type: string
+                  offer_end_date:
+                    type: string
+                  commodity_status:
+                    type: string
+                  commodity_combination_code:
+                    type: string
+                  start_date:
+                    type: string
+                  end_date:
+                    type: string
+                required:
+                  - parent_product_code
+              examples:
+                example-1: {}
+      operationId: get-child-products-for-category-date
+      description: Get all child products given the product_code and date using the ParentProductLink table
+  '/products/{product_code}/{date}/set-products':
+    parameters:
+      - schema:
+          type: string
+        name: product_code
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: date
+        in: path
+        required: true
+    get:
+      summary: GET Products Set endpoint
+      tags:
+        - product endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  commoditiy_combination_code:
+                    type: string
+                  availability_start_date:
+                    type: string
+                  availability_end_date:
+                    type: string
+                  product_code:
+                    type: string
+                  product_name:
+                    type: string
+                  base_or_option:
+                    type: string
+                  end_date:
+                    type: string
+                  start_date:
+                    type: string
+                  commodity_combination_code:
+                    type: string
+                  commodity_status:
+                    type: string
+                  offer_end_date:
+                    type: string
+                  offer_start_date:
+                    type: string
+                  product_offering_name:
+                    type: string
+                  minimum_purchase_unit_quantity:
+                    type: string
+                  minimum_purchase_number:
+                    type: string
+                  category:
+                    type: string
+                  allowable_number_of_people:
+                    type: string
+                  claims_running_in_days:
+                    type: string
+              examples:
+                example-1: {}
+                example-2: {}
+      operationId: get-products-product_code-date-set-products
+      description: Get all the Set of products available to purchase given a product_code and date using the ProductCombinationSupplyMaster table
 components:
   schemas: {}
   securitySchemes:
