@@ -1,8 +1,13 @@
 openapi: 3.0.0
+tags: 
+  - name: product endpoints
+    description: API related to product functions like get post
 info:
   title: GEDB Api
   version: '0.1'
   description: 'API for accessing and changing GEDB data.  This includes retrieving and adding Product data.  Retrieving and adding Contract Data. '
+  contact:
+    email: 'test@email.com'
 servers:
   - url: 'http://localhost:3100'
     description: dev
@@ -10,6 +15,8 @@ paths:
   /products:
     parameters: []
     get:
+      tags:
+        - product endpoints      
       summary: GET Products and Post Product endpoint
       responses:
         '200':
@@ -32,8 +39,6 @@ paths:
               examples:
                 example-1: {}
       operationId: get-products-for-category-date
-      tags:
-        - product endpoints
       description: Get product list for given category and date from master table
       parameters:
         - schema:
@@ -58,6 +63,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/product'
+        description: ''
       tags:
         - product endpoints
   '/products/{product_code}/{date}/child-products':
@@ -128,6 +134,22 @@ paths:
                 example-1: {}
       operationId: get-child-products-for-category-date
       description: Get all child products given the product_code and date using the ParentProductLink table
+      tags:
+        - product endpoints
+    post:
+      summary: ''
+      operationId: post-products-parent_product_code-date-child_product_code
+      responses:
+        '200':
+          description: OK
+      description: Registering a child product(support for multiple child products) to a parent product (including a pattern without a parent)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
       tags:
         - product endpoints
   '/products/{product_code}/{date}/set-products':
