@@ -57,14 +57,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                product_code:
-                  type: string
-                minmum_purchase_number:
-                  type: string
-                '':
-                  type: string
+              $ref: '#/components/schemas/product'
   '/products/{product_code}/{date}/child-products':
     parameters:
       - schema:
@@ -313,36 +306,38 @@ components:
       title: product
       type: object
       properties:
+        commodity_status:
+          type: string
         product_code:
           type: string
           description: product code
-          example: MTM     
+          example: MTM
         product_name:
           type: string
-          example: Month to Month  
+          example: Month to Month
         base_or_option:
           type: string
         claims_running_in_days:
           type: string
         allowable_number_of_people:
-          type: string     
+          type: string
         category:
-          type: string                                              
+          type: string
         minimum_purchase_number:
           type: string
         minimum_purchase_unit_quantity:
-          type: string     
+          type: string
         Product_offering_name:
-          type: string      
+          type: string
         offer_start_date:
-          type: string  
+          type: string
         offer_end_date:
-          type: string                           
-        commodity_status:
           type: string
       required:
         - product_code
-        - product_name
+        - minimum_purchase_number
+        - offer_start_date
+        - offer_end_date
   securitySchemes:
     app_id:
       name: appid
