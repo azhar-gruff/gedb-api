@@ -10,7 +10,7 @@ paths:
   /products:
     parameters: []
     get:
-      summary: Your GET endpoint
+      summary: GET Products and Post Product endpoint
       responses:
         '200':
           description: OK
@@ -73,7 +73,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: GET Child Products endpoint
       responses:
         '200':
           description: OK
@@ -143,7 +143,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: GET Set Products endpoint
       tags:
         - product endpoints
       responses:
@@ -198,7 +198,7 @@ paths:
       description: Get all the Set of products available to purchase given a product_code and date using the ProductCombinationSupplyMaster table
   /products-no-sets:
     get:
-      summary: Your GET endpoint
+      summary: GET No-Set Products endpoint
       tags:
         - product endpoints
       responses:
@@ -226,7 +226,7 @@ paths:
     parameters: []
   /products-parent-child-combo:
     get:
-      summary: Your GET endpoint
+      summary: GET Parent-Child Combination endpoint
       tags:
         - product endpoints
       responses:
@@ -278,7 +278,7 @@ paths:
           required: true
   /products/products-combination:
     get:
-      summary: Your GET endpoint
+      summary: GET Product-Combination endpoint
       responses:
         '200':
           description: OK
