@@ -20,45 +20,25 @@ paths:
         in: path
         required: true
     get:
-      summary: GET Products List endpoint
+      summary: Your GET endpoint
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  product_code:
-                    type: string
-                    description: product code
-                    example: MTM
-                  product_name:
-                    type: string
-                    example: Month to Month
-                  base_or_option:
-                    type: string
-                  claims_running_in_days:
-                    type: string
-                  allowable_number_of_people:
-                    type: string
-                  category:
-                    type: string
-                  minimum_purchase_number:
-                    type: string
-                  minimum_purchase_unit_quantity:
-                    type: string
-                  Product_offering_name:
-                    type: string
-                  offer_start_date:
-                    type: string
-                  offer_end_date:
-                    type: string
-                  commodity_status:
-                    type: string
-                required:
-                  - product_code
-                  - product_name
+                type: array
+                items:
+                  $ref: '#/components/schemas/product'
+              examples:
+                example-1: {}
+                example-2: {}
+                example-3: {}
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/product'
               examples:
                 example-1: {}
       operationId: get-products-for-category-date
@@ -79,9 +59,8 @@ paths:
         in: path
         required: true
     get:
-      summary: GET Product Children endpoint
-      tags:
-        - product endpoints
+      summary: Your GET endpoint
+      tags: []
       responses:
         '200':
           description: OK
@@ -146,9 +125,8 @@ paths:
         in: path
         required: true
     get:
-      summary: GET Products Set endpoint
-      tags:
-        - product endpoints
+      summary: Your GET endpoint
+      tags: []
       responses:
         '200':
           description: OK
@@ -193,13 +171,44 @@ paths:
                     type: string
                   claims_running_in_days:
                     type: string
-              examples:
-                example-1: {}
-                example-2: {}
       operationId: get-products-product_code-date-set-products
       description: Get all the Set of products available to purchase given a product_code and date using the ProductCombinationSupplyMaster table
 components:
-  schemas: {}
+  schemas:
+    product:
+      title: product
+      type: object
+      properties:
+        commodity_status:
+          type: string
+        offer_end_date:
+          type: string
+        offer_start_date:
+          type: string
+        Product_offering_name:
+          type: string
+        minimum_purchase_unit_quantity:
+          type: string
+        minimum_purchase_number:
+          type: string
+        category:
+          type: string
+        allowable_number_of_people:
+          type: string
+        claims_running_in_days:
+          type: string
+        base_or_option:
+          type: string
+        product_name:
+          type: string
+          example: Month to Month
+        product_code:
+          type: string
+          description: product code
+          example: MTM
+      required:
+        - product_code
+        - product_name
   securitySchemes:
     app_id:
       name: appid
