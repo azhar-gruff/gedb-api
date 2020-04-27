@@ -7,18 +7,8 @@ servers:
   - url: 'http://localhost:3100'
     description: dev
 paths:
-  '/products/{category}/{date}':
-    parameters:
-      - schema:
-          type: string
-        name: category
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: date
-        in: path
-        required: true
+  /products:
+    parameters: []
     get:
       summary: Your GET endpoint
       responses:
@@ -45,7 +35,17 @@ paths:
       tags:
         - product endpoints
       description: Get product list for given category and date from master table
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: category
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: date
+          required: true
   '/products/{product_code}/{date}/child-products':
     parameters:
       - schema:
@@ -60,54 +60,58 @@ paths:
         required: true
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - EDB API
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  parent_product_code:
-                    type: string
-                    description: product code
-                    example: MTM
-                  parent_product_name:
-                    type: string
-                    example: Month to Month
-                  child_product_code:
-                    type: string
-                  child_product_name:
-                    type: string
-                  base_or_option:
-                    type: string
-                  claims_running_in_days:
-                    type: string
-                  allowable_number_of_people:
-                    type: string
-                  category:
-                    type: string
-                  minimum_purchase_number:
-                    type: string
-                  minimum_purchase_unit_quantity:
-                    type: string
-                  product_offering_name:
-                    type: string
-                  offer_start_date:
-                    type: string
-                  offer_end_date:
-                    type: string
-                  commodity_status:
-                    type: string
-                  commodity_combination_code:
-                    type: string
-                  start_date:
-                    type: string
-                  end_date:
-                    type: string
-                required:
-                  - parent_product_code
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parent_product_code:
+                      type: string
+                      description: product code
+                      example: MTM
+                    parent_product_name:
+                      type: string
+                      example: Month to Month
+                    child_product_code:
+                      type: string
+                    child_product_name:
+                      type: string
+                    base_or_option:
+                      type: string
+                    claims_running_in_days:
+                      type: string
+                    allowable_number_of_people:
+                      type: string
+                    category:
+                      type: string
+                    minimum_purchase_number:
+                      type: string
+                    minimum_purchase_unit_quantity:
+                      type: string
+                    product_offering_name:
+                      type: string
+                    offer_start_date:
+                      type: string
+                    offer_end_date:
+                      type: string
+                    commodity_status:
+                      type: string
+                    commodity_combination_code:
+                      type: string
+                    start_date:
+                      type: string
+                    end_date:
+                      type: string
+                  required:
+                    - parent_product_code
+                    - child_product_code
               examples:
                 example-1: {}
       operationId: get-child-products-for-category-date
