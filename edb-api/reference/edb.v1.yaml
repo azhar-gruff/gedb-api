@@ -46,6 +46,25 @@ paths:
           in: query
           name: date
           required: true
+    post:
+      summary: ''
+      operationId: post-products
+      responses:
+        '200':
+          description: OK
+      description: To register parent product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_code:
+                  type: string
+                minmum_purchase_number:
+                  type: string
+                '':
+                  type: string
   '/products/{product_code}/{date}/child-products':
     parameters:
       - schema:
@@ -137,79 +156,190 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  commoditiy_combination_code:
-                    type: string
-                  availability_start_date:
-                    type: string
-                  availability_end_date:
-                    type: string
-                  product_code:
-                    type: string
-                  product_name:
-                    type: string
-                  base_or_option:
-                    type: string
-                  end_date:
-                    type: string
-                  start_date:
-                    type: string
-                  commodity_combination_code:
-                    type: string
-                  commodity_status:
-                    type: string
-                  offer_end_date:
-                    type: string
-                  offer_start_date:
-                    type: string
-                  product_offering_name:
-                    type: string
-                  minimum_purchase_unit_quantity:
-                    type: string
-                  minimum_purchase_number:
-                    type: string
-                  category:
-                    type: string
-                  allowable_number_of_people:
-                    type: string
-                  claims_running_in_days:
-                    type: string
+                type: array
+                items:
+                  type: object
+                  properties:
+                    commoditiy_combination_code:
+                      type: string
+                    availability_start_date:
+                      type: string
+                    availability_end_date:
+                      type: string
+                    product_code:
+                      type: string
+                    product_name:
+                      type: string
+                    base_or_option:
+                      type: string
+                    end_date:
+                      type: string
+                    start_date:
+                      type: string
+                    commodity_combination_code:
+                      type: string
+                    commodity_status:
+                      type: string
+                    offer_end_date:
+                      type: string
+                    offer_start_date:
+                      type: string
+                    product_offering_name:
+                      type: string
+                    minimum_purchase_unit_quantity:
+                      type: string
+                    minimum_purchase_number:
+                      type: string
+                    category:
+                      type: string
+                    allowable_number_of_people:
+                      type: string
+                    claims_running_in_days:
+                      type: string
+                  required:
+                    - product_code
       operationId: get-products-product_code-date-set-products
       description: Get all the Set of products available to purchase given a product_code and date using the ProductCombinationSupplyMaster table
+  /products-no-sets:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/product'
+      operationId: get-products
+      description: Returns a list of the parent with no set items in the parent product of specified product category.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: category
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: date
+          required: true
+    parameters: []
+  /products-parent-child-combo:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parent_product_code:
+                      type: string
+                    child_product_code:
+                      type: string
+                    commodity_combination_code:
+                      type: string
+                  required:
+                    - parent_product_code
+                    - child_product_code
+      operationId: get-products-parent-child-combo
+      description: Returns a list of available ways to purchase the specified parent and child (group) (single item combination of parent and child + child set combination).
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: parent_product_code
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: number_of_parent_applications
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: child_product_code
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: number_of_child_applications
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: date
+          required: true
+  /products/products-combination:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  can_register:
+                    type: boolean
+                  reason:
+                    type: string
+                required:
+                  - can_register
+              examples:
+                example-1: {}
+      operationId: get-products-kk
+      description: Returns whether or not the specified set of product codes can be registered (it is better to return the reason(s) why they cannot be registered).
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: commodity_combination_code
+          required: true
+    parameters: []
 components:
   schemas:
     product:
       title: product
       type: object
       properties:
-        commodity_status:
-          type: string
-        offer_end_date:
-          type: string
-        offer_start_date:
-          type: string
-        Product_offering_name:
-          type: string
-        minimum_purchase_unit_quantity:
-          type: string
-        minimum_purchase_number:
-          type: string
-        category:
-          type: string
-        allowable_number_of_people:
-          type: string
-        claims_running_in_days:
-          type: string
-        base_or_option:
-          type: string
-        product_name:
-          type: string
-          example: Month to Month
         product_code:
           type: string
           description: product code
-          example: MTM
+          example: MTM     
+        product_name:
+          type: string
+          example: Month to Month  
+        base_or_option:
+          type: string
+        claims_running_in_days:
+          type: string
+        allowable_number_of_people:
+          type: string     
+        category:
+          type: string                                              
+        minimum_purchase_number:
+          type: string
+        minimum_purchase_unit_quantity:
+          type: string     
+        Product_offering_name:
+          type: string      
+        offer_start_date:
+          type: string  
+        offer_end_date:
+          type: string                           
+        commodity_status:
+          type: string
       required:
         - product_code
         - product_name
