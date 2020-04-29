@@ -455,37 +455,45 @@ paths:
                 type: array
                 items:
                   type: object
-                    properties:
-                      quantity:
-                        type: integer
-                      application_form_internal_number:
-                        type: string
-                      latest_flag:
-                        type: string
-                      commodity_combination_code:
-                        type: string
-                      commodity_contracts_end:
-                        type: string
-                      commodity_contract_start_date:
-                        type: string
-                      contract_end_date:
-                        type: string
-                      contract_start_date:
-                        type: string
-                      status:
-                        type: string
-                      available_for_loan:
-                        type: boolean
-                      presence_of_fixed_IP:
-                        type: boolean
-                      installation_location:
-                        type: string
-                      product_code:
-                        type: string
-                      contract_code:
-                        type: string
-                      sequence_number:
-                        type: integer
+                  properties:
+                    sequence_number:
+                      type: integer
+                    contract_code:
+                      type: string   
+                    product_code:
+                      type: string                 
+                    installation_location:
+                      type: string
+                    presence_of_fixed_IP:
+                      type: boolean
+                    available_for_loan:
+                      type: boolean
+                    status:
+                      type: string
+                    contract_start_date:
+                      type: string
+                    contract_end_date:
+                      type: string
+                    commodity_contract_start_date:
+                      type: string
+                    commodity_contract_end_date:
+                      type: string
+                    commodity_combination_code:
+                      type: string        
+                    latest_flag:
+                      type: string  
+                    application_form_internal_number:
+                      type: string                    
+                    quantity:
+                      type: integer
+                    grouping_number:
+                      type: string
+                    relation:
+                      type: string
+                    start_date:
+                      type: string
+                    end_date:
+                      type: string
       operationId: get-contracts-related-contract_code
       description: Get a list of related contracts including the specified contract code (Specified contract code can be parent or child)
 components:
@@ -585,35 +593,35 @@ components:
       title: contract-application
       type: object
       properties:
-        quantity:
+        sequence_number:
           type: integer
-        application_form_internal_number:
+        contract_code:
+          type: string   
+        product_code:
+          type: string                 
+        installation_location:
           type: string
-        latest_flag:
-          type: string
-        commodity_combination_code:
-          type: string
-        commodity_contracts_end:
-          type: string
-        commodity_contract_start_date:
-          type: string
-        contract_end_date:
+        presence_of_fixed_IP:
+          type: boolean
+        available_for_loan:
+          type: boolean
+        status:
           type: string
         contract_start_date:
           type: string
-        status:
+        contract_end_date:
           type: string
-        available_for_loan:
-          type: boolean
-        presence_of_fixed_IP:
-          type: boolean
-        installation_location:
+        commodity_contract_start_date:
           type: string
-        product_code:
+        commodity_contract_end_date:
           type: string
-        contract_code:
-          type: string
-        sequence_number:
+        commodity_combination_code:
+          type: string        
+        latest_flag:
+          type: string  
+        application_form_internal_number:
+          type: string                    
+        quantity:
           type: integer
         project_name:
           type: string
