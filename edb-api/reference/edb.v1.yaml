@@ -405,9 +405,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/contract'
+                $ref: '#/components/schemas/contract'
       operationId: get-contract-contract_code
       description: Get the currently active contract list given the company code.  Optional parameter of date can be set to get the contracts active on a certain date only.
       parameters:
@@ -419,8 +417,17 @@ paths:
   '/contract-history/{contract_code}':
     get:
       summary: Your GET endpoint
-      tags: []
-      responses: {}
+      tags:
+        - contract endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/contract-application'
       operationId: get-contract-history
       description: 'Get the history of the contract, given the contract code (including the application number)'
     parameters:
@@ -429,6 +436,58 @@ paths:
         name: contract_code
         in: path
         required: true
+  '/contracts-related/{contract_code}':
+    parameters:
+      - schema:
+          type: string
+        name: contract_code
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                    properties:
+                      quantity:
+                        type: integer
+                      application_form_internal_number:
+                        type: string
+                      latest_flag:
+                        type: string
+                      commodity_combination_code:
+                        type: string
+                      commodity_contracts_end:
+                        type: string
+                      commodity_contract_start_date:
+                        type: string
+                      contract_end_date:
+                        type: string
+                      contract_start_date:
+                        type: string
+                      status:
+                        type: string
+                      available_for_loan:
+                        type: boolean
+                      presence_of_fixed_IP:
+                        type: boolean
+                      installation_location:
+                        type: string
+                      product_code:
+                        type: string
+                      contract_code:
+                        type: string
+                      sequence_number:
+                        type: integer
+      operationId: get-contracts-related-contract_code
+      description: Get a list of related contracts including the specified contract code (Specified contract code can be parent or child)
 components:
   schemas:
     product:
@@ -467,8 +526,63 @@ components:
         - minimum_purchase_number
         - offer_start_date
         - offer_end_date
+      description: Corresponds to the ProductMaster and ProductSupplyMaster tables.
     contract:
       title: contract
+      type: object
+      properties:
+        sequence_number:
+          type: integer
+        contract_code:
+          type: string   
+        product_code:
+          type: string                 
+        installation_location:
+          type: string
+        presence_of_fixed_IP:
+          type: boolean
+        available_for_loan:
+          type: boolean
+        status:
+          type: string
+        contract_start_date:
+          type: string
+        contract_end_date:
+          type: string
+        commodity_contract_start_date:
+          type: string
+        commodity_contract_end_date:
+          type: string
+        commodity_combination_code:
+          type: string        
+        latest_flag:
+          type: string  
+        application_form_internal_number:
+          type: string                    
+        quantity:
+          type: integer
+      x-tags:
+        - contract endpoints
+      description: Corresponds to the Contract_Master table
+    application:
+      title: application
+      type: object
+      properties:
+        automatic_updating:
+          type: string
+        billing_frequency:
+          type: string
+        ordering_division:
+          type: string
+        contract_date:
+          type: string
+        project_name:
+          type: string
+        application_form_internal_number:
+          type: string
+      description: Corresponds to Application_Management_Master table
+    contract-application:
+      title: contract-application
       type: object
       properties:
         quantity:
@@ -501,14 +615,6 @@ components:
           type: string
         sequence_number:
           type: integer
-      x-tags:
-        - contract endpoints
-    application:
-      title: application
-      type: object
-      properties:
-        application_form_internal_number:
-          type: string
         project_name:
           type: string
         contract_date:
@@ -519,6 +625,7 @@ components:
           type: string
         automatic_updating:
           type: string
+      description: 'Combined Contract_Master and Application_Management_Master table. '
   securitySchemes:
     app_id:
       name: appid
