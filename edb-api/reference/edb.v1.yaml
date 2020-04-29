@@ -388,6 +388,47 @@ paths:
       tags:
         - product endpoints
     parameters: []
+  '/contract/{company_code}':
+    parameters:
+      - schema:
+          type: string
+        name: company_code
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - contract endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/contract'
+      operationId: get-contract-contract_code
+      description: Get the currently active contract list given the company code.  Optional parameter of date can be set to get the contracts active on a certain date only.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: Optional parameter to get the contracts active for a specific date
+  '/contract-history/{contract_code}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-contract-history
+      description: 'Get the history of the contract, given the contract code (including the application number)'
+    parameters:
+      - schema:
+          type: string
+        name: contract_code
+        in: path
+        required: true
 components:
   schemas:
     product:
@@ -426,6 +467,58 @@ components:
         - minimum_purchase_number
         - offer_start_date
         - offer_end_date
+    contract:
+      title: contract
+      type: object
+      properties:
+        quantity:
+          type: integer
+        application_form_internal_number:
+          type: string
+        latest_flag:
+          type: string
+        commodity_combination_code:
+          type: string
+        commodity_contracts_end:
+          type: string
+        commodity_contract_start_date:
+          type: string
+        contract_end_date:
+          type: string
+        contract_start_date:
+          type: string
+        status:
+          type: string
+        available_for_loan:
+          type: boolean
+        presence_of_fixed_IP:
+          type: boolean
+        installation_location:
+          type: string
+        product_code:
+          type: string
+        contract_code:
+          type: string
+        sequence_number:
+          type: integer
+      x-tags:
+        - contract endpoints
+    application:
+      title: application
+      type: object
+      properties:
+        application_form_internal_number:
+          type: string
+        project_name:
+          type: string
+        contract_date:
+          type: string
+        ordering_division:
+          type: string
+        billing_frequency:
+          type: string
+        automatic_updating:
+          type: string
   securitySchemes:
     app_id:
       name: appid
