@@ -66,7 +66,7 @@ paths:
   /products/child-products:
     parameters: []
     get:
-      summary: GET Child Products endpoint
+      summary: GET POST Child Products
       responses:
         '200':
           description: OK
@@ -181,7 +181,7 @@ paths:
   /products/products-set:
     parameters: []
     get:
-      summary: GET Set Products endpoint
+      summary: GET POST Product Set
       tags:
         - product endpoints
       responses:
@@ -392,7 +392,7 @@ paths:
     parameters: []
   /contract-company-code:
     get:
-      summary: Your GET endpoint
+      summary: GET Contract list for company code
       tags:
         - contract endpoints
       responses:
@@ -418,7 +418,7 @@ paths:
           name: date
   '/contract/history/{contract_code}':
     get:
-      summary: Your GET endpoint
+      summary: Get contract history for contract code
       tags:
         - contract endpoints
       responses:
@@ -446,8 +446,9 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: GET contracts related to given Contract Code
+      tags:
+        - contract endpoints
       responses:
         '200':
           description: OK
@@ -500,8 +501,9 @@ paths:
       description: Get a list of related contracts including the specified contract code (Specified contract code can be parent or child)
   '/contract/product/{product_code}':
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: GET Contract list for product code
+      tags:
+        - contract endpoints
       responses:
         '200':
           description: OK
@@ -530,7 +532,7 @@ paths:
   /contract-application-number:
     parameters: []
     get:
-      summary: Your GET endpoint
+      summary: Get contract list for application number
       tags:
         - contract endpoints
       responses:
@@ -559,8 +561,9 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get POST Application form for given contract code
+      tags:
+        - contract endpoints
       responses:
         '200':
           description: OK
@@ -598,8 +601,9 @@ paths:
           required: true
   /contract-combination-code:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: GET Contracts for Combination Code
+      tags:
+        - contract endpoints
       responses:
         '200':
           description: OK
@@ -623,8 +627,9 @@ paths:
           name: date
   /contract-cancelled-contract-code:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: GET contracts linked with cancelled contract_code
+      tags:
+        - contract endpoints
       responses:
         '200':
           description: OK
@@ -644,7 +649,7 @@ paths:
           required: true
   /application:
     post:
-      summary: ''
+      summary: POST Application endpoint
       operationId: post-application
       responses:
         '200':
@@ -683,6 +688,8 @@ paths:
             examples:
               example-1: {}
         description: ''
+      tags:
+        - application endpoint
 components:
   schemas:
     product:
