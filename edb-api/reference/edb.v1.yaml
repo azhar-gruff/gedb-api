@@ -410,12 +410,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/contract'
-        '':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
       operationId: get-contract-contract_code
       description: Get the currently active contract list given the company code.
       parameters: []
@@ -556,8 +550,6 @@ paths:
                   $ref: '#/components/schemas/contract'
       operationId: get-contract-company_code-date-date
       description: Get the contracts active on a certain date only.
-      requestBody:
-        description: ''
   /contract:
     parameters: []
     get:
