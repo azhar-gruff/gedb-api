@@ -915,6 +915,34 @@ paths:
                 - listed-master
                 - companies
         description: listed master object and associated array of linked companies
+  /company-industry-master:
+    get:
+      summary: Get all company-industry-master records
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/company-industry-master'
+      operationId: get-company-industry-master
+      description: Get all the company uniform code with their industry code
+      security:
+        - app_id: []
+    post:
+      summary: Add to company-industry-master
+      operationId: post-company-industry-master
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      description: Add a new company industry link record
+      security:
+        - app_id: []
 components:
   schemas:
     product:
@@ -1200,6 +1228,18 @@ components:
           type: string
         company_uniform_code:
           type: string
+    company-industry-master:
+      title: company-industry-master
+      type: object
+      description: List of companies with their industry.  Providies industry code for every company.
+      properties:
+        company_uniform_code:
+          type: string
+        industry_code:
+          type: string
+      required:
+        - company_uniform_code
+        - industry_code
   securitySchemes:
     app_id:
       name: appid
