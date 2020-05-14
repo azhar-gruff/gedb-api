@@ -890,6 +890,31 @@ paths:
       description: Get the entire listed-master records with the related company
       security:
         - app_id: []
+    post:
+      summary: ''
+      operationId: post-company-listed-master
+      responses:
+        '201':
+          description: Created
+      description: "Add a new listed-master and it's associated companies"
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                listed-master:
+                  $ref: '#/components/schemas/listed-master'
+                companies:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/company-listed-master'
+              required:
+                - listed-master
+                - companies
+        description: listed master object and associated array of linked companies
 components:
   schemas:
     product:
