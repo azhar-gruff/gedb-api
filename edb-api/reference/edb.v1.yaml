@@ -834,6 +834,36 @@ paths:
       security:
         - app_id: []
       description: To register/add a new company to the system.
+  '/company/{uniform_company_code}/corporate-office':
+    parameters:
+      - schema:
+          type: string
+        name: uniform_company_code
+        in: path
+        required: true
+    post:
+      summary: Add company corporate office and address for given company code
+      operationId: post-company-uniform_company_code-corporate_office
+      responses:
+        '201':
+          description: "Created and return an array of company_based_code for each corporate-office and it's associated street address"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '404':
+          description: 'Not Found: If the uniform_company_code was not found'
+      description: "To add new corporate office and it's address information"
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/corporate-office-with-address'
+        description: An Array of corporate-office objects with street address object for each
 components:
   schemas:
     product:
@@ -1074,6 +1104,31 @@ components:
         tsr_address_code:
           type: string
       description: Address for a specific corporate office
+    corporate-office:
+      title: corporate-office
+      type: object
+      properties:
+        companies_uniform_code:
+          type: string
+        companies_based_code:
+          type: string
+        site_name:
+          type: string
+        base_attribute:
+          type: string
+        business:
+          type: string
+      description: Object correponding to corporate office base
+    corporate-office-with-address:
+      title: corporate-office-with-address
+      type: array
+      items:
+        type: object
+        properties:
+          corporate-office:
+            $ref: '#/components/schemas/corporate-office'
+          street-address:
+            $ref: '#/components/schemas/street-address'
   securitySchemes:
     app_id:
       name: appid
