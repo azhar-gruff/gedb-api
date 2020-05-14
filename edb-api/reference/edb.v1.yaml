@@ -943,6 +943,63 @@ paths:
       description: Add a new company industry link record
       security:
         - app_id: []
+  /company/related-companies:
+    put:
+      summary: ''
+      operationId: put-company-related-companies
+      responses:
+        '200':
+          description: OK
+      description: Update a related-companies record
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/related-companies'
+  /company/contract-prohibited-master:
+    put:
+      summary: ''
+      operationId: put-company-contract-prohibited-master
+      responses:
+        '200':
+          description: OK
+      description: To update a contract-prohibited-master record
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contract-prohibited-master'
+        description: A contrac-prohibited-master object with company_uniform_code and product_code required attributes
+  /company-list-for-product:
+    post:
+      summary: Get Companies for Products
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/company'
+      operationId: get-company-list-for-product
+      description: Returns a list of companies that have contracted for products with specified terms and conditions on a given date
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_master:
+                  $ref: '#/components/schemas/product-master-date'
+        description: Object representing the Product Master and Product offering but only for a specific date
 components:
   schemas:
     product:
@@ -982,6 +1039,8 @@ components:
         - offer_start_date
         - offer_end_date
       description: Corresponds to the ProductMaster and ProductSupplyMaster tables.
+      x-tags:
+        - product endpoints
     contract:
       title: contract
       type: object
@@ -1240,6 +1299,74 @@ components:
       required:
         - company_uniform_code
         - industry_code
+    related-companies:
+      title: related-companies
+      type: object
+      x-tags:
+        - company endpoint
+      description: ''
+      properties:
+        related_methods:
+          type: string
+        company_name:
+          type: string
+        company_uniform_code:
+          type: string
+      required:
+        - company_uniform_code
+    contract-prohibited-master:
+      title: contract-prohibited-master
+      type: object
+      description: ''
+      x-tags:
+        - company endpoint
+      properties:
+        company_uniform_code:
+          type: string
+        product_code:
+          type: string
+        contract_prohibited_start_date:
+          type: string
+        contract_prohibited_end_date:
+          type: string
+        remarks:
+          type: string
+      required:
+        - company_uniform_code
+        - product_code
+    product-master-date:
+      title: product-master-date
+      type: object
+      properties:
+        commodity_status:
+          type: string
+        product_name:
+          type: string
+          example: Month to Month
+        base_or_option:
+          type: string
+        claims_running_in_days:
+          type: string
+        allowable_number_of_people:
+          type: string
+        category:
+          type: string
+        minimum_purchase_number:
+          type: string
+        minimum_purchase_unit_quantity:
+          type: string
+        Product_offering_name:
+          type: string
+        product_code:
+          type: string
+          description: product code
+          example: MTM
+        date:
+          type: string
+      required:
+        - product_code
+        - date
+      description: product offerings for a date
   securitySchemes:
     app_id:
       name: appid
