@@ -280,6 +280,8 @@ paths:
               required:
                 - parent_product_code
                 - child_product_codes
+      tags:
+        - product endpoints
   /products-no-sets:
     get:
       summary: GET No-Set Products endpoint
@@ -393,8 +395,6 @@ paths:
   /contract-company-code:
     get:
       summary: GET Contract list for company code
-      tags:
-        - contract endpoints
       responses:
         '200':
           description: OK
@@ -416,6 +416,9 @@ paths:
             type: string
           in: query
           name: date
+      tags:
+        - contract endpoints
+    parameters: []
   '/contract/history/{contract_code}':
     get:
       summary: Get contract history for contract code
@@ -578,6 +581,8 @@ paths:
     post:
       summary: ''
       operationId: post-contract-contract_code-application
+      tags:
+        - application endpoint
       responses:
         '200':
           description: OK
@@ -832,6 +837,67 @@ components:
         commodity_contract_end_date:
           type: string
       description: 'Combined Contract_Master and Application_Management_Master table. '
+    company:
+      title: company
+      type: object
+      properties:
+        company_uniform_code:
+          type: string
+        sb_own_enterprise_risk_score:
+          type: integer
+        enterprise_risk_score:
+          type: integer
+        sb_company_division:
+          type: string
+        general_corporate_division:
+          type: string
+        account_information_3:
+          type: string
+        account_information_2:
+          type: string
+        account_information_1:
+          type: string
+        representative_phone_number:
+          type: string
+        representative_name_kana:
+          type: string
+        representative_name:
+          type: string
+        corporate_profits_third_year:
+          type: string
+        corporate_sales_third_year:
+          type: string
+        financial_month_third_year:
+          type: integer
+        corporate_profits_second_year:
+          type: string
+        corporate_sales_second_year:
+          type: string
+        financial_month_second_year:
+          type: integer
+        corporate_profits_first_year:
+          type: string
+        corporate_sales_first_year:
+          type: string
+        financial_month_first_year:
+          type: integer
+        number_of_employees:
+          type: integer
+        founding_date:
+          type: string
+        date_of_establishment:
+          type: string
+        business:
+          type: string
+        capital_stock:
+          type: string
+        company_name_kana:
+          type: string
+        company_name:
+          type: string
+        duns_number:
+          type: string
+      description: corresponding to company table
   securitySchemes:
     app_id:
       name: appid
@@ -856,3 +922,9 @@ components:
 tags:
   - name: product endpoints
     description: API related to product functions like get post
+  - name: company endpoints
+    description: API related to company API functions
+  - name: contract endpoints
+    description: API related to contract API functions
+  - name: application endpoint
+    description: API related to application API functions
