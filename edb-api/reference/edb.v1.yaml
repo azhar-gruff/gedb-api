@@ -864,6 +864,32 @@ paths:
             schema:
               $ref: '#/components/schemas/corporate-office-with-address'
         description: An Array of corporate-office objects with street address object for each
+      tags:
+        - company endpoint
+  /company-listed-master:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    listed-master:
+                      $ref: '#/components/schemas/listed-master'
+                    companies:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/company-listed-master'
+      operationId: get-company-listed-master
+      description: Get the entire listed-master records with the related company
+      security:
+        - app_id: []
 components:
   schemas:
     product:
@@ -1129,6 +1155,26 @@ components:
             $ref: '#/components/schemas/corporate-office'
           street-address:
             $ref: '#/components/schemas/street-address'
+    listed-master:
+      title: listed-master
+      type: object
+      description: Object corresponding to listed_master table
+      x-tags:
+        - company endpoint
+      properties:
+        listing_code:
+          type: string
+        listing_company_name:
+          type: string
+    company-listed-master:
+      title: company-listed-master-link
+      type: object
+      description: Linking a company to listed master
+      properties:
+        listed_code:
+          type: string
+        company_uniform_code:
+          type: string
   securitySchemes:
     app_id:
       name: appid
