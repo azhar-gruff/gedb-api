@@ -869,7 +869,8 @@ paths:
   /company-listed-master:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - company endpoint
       responses:
         '200':
           description: OK
@@ -920,7 +921,8 @@ paths:
   /company-industry-master:
     get:
       summary: Get all company-industry-master records
-      tags: []
+      tags:
+        - company endpoint
       responses:
         '200':
           description: OK
@@ -985,7 +987,8 @@ paths:
   /company-list-for-product:
     post:
       summary: Get Companies for Products
-      tags: []
+      tags:
+        - company endpoint
       responses:
         '200':
           description: OK
@@ -1011,7 +1014,8 @@ paths:
   /company-list-for-area:
     post:
       summary: Get companies for location
-      tags: []
+      tags:
+        - company endpoint
       responses:
         '200':
           description: OK
