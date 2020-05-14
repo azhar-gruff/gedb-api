@@ -1000,6 +1000,28 @@ paths:
                 product_master:
                   $ref: '#/components/schemas/product-master-date'
         description: Object representing the Product Master and Product offering but only for a specific date
+  /company-list-for-area:
+    post:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/company'
+      operationId: get-company-list-for-area
+      description: 'Returns a list company locations for a given geographic area.   Addresses can be narrowed down to prefectures, cities, wards, towns, villages, etc.'
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/area-location'
 components:
   schemas:
     product:
@@ -1219,8 +1241,6 @@ components:
       title: street-address
       type: object
       properties:
-        id:
-          type: string
         address_applications:
           type: string
         address_other:
@@ -1367,12 +1387,28 @@ components:
         - product_code
         - date
       description: product offerings for a date
-  securitySchemes:
-    app_id:
-      name: appid
-      type: apiKey
-      in: query
-      description: ''
+    area-location:
+      title: area-location
+      type: object
+      properties:
+        tsr_address_code:
+          type: string
+        general_address_code:
+          type: string
+        address_applications:
+          type: string
+        postal_code:
+          type: string
+        prefectures:
+          type: string
+        address_other:
+          type: string
+        city:
+          type: string
+        town_area:
+          type: string
+        chome:
+          type: string
   parameters:
     category:
       name: category
@@ -1388,6 +1424,12 @@ components:
       schema:
         type: string
       required: true
+  securitySchemes:
+    app_id:
+      name: appid
+      type: apiKey
+      in: query
+      description: ''
 tags:
   - name: product endpoints
     description: API related to product functions like get post
