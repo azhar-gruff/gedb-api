@@ -915,6 +915,8 @@ paths:
                 - listed-master
                 - companies
         description: listed master object and associated array of linked companies
+      tags:
+        - company endpoint
   /company-industry-master:
     get:
       summary: Get all company-industry-master records
@@ -943,9 +945,11 @@ paths:
       description: Add a new company industry link record
       security:
         - app_id: []
+      tags:
+        - company endpoint
   /company/related-companies:
     put:
-      summary: ''
+      summary: Get list of related-companies
       operationId: put-company-related-companies
       responses:
         '200':
@@ -958,9 +962,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/related-companies'
+      tags:
+        - company endpoint
   /company/contract-prohibited-master:
     put:
-      summary: ''
+      summary: Update contract-prohibited-master
       operationId: put-company-contract-prohibited-master
       responses:
         '200':
@@ -974,6 +980,8 @@ paths:
             schema:
               $ref: '#/components/schemas/contract-prohibited-master'
         description: A contrac-prohibited-master object with company_uniform_code and product_code required attributes
+      tags:
+        - company endpoint
   /company-list-for-product:
     post:
       summary: Get Companies for Products
@@ -1002,7 +1010,7 @@ paths:
         description: Object representing the Product Master and Product offering but only for a specific date
   /company-list-for-area:
     post:
-      summary: Your GET endpoint
+      summary: Get companies for location
       tags: []
       responses:
         '200':
