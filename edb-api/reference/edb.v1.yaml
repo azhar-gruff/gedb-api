@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: GEDB Api
-  version: '0.1'
+  version: '0.2'
   description: 'API for accessing and changing GEDB data.  This includes retrieving and adding Product data.  Retrieving and adding Contract Data. '
   contact:
     email: test@email.com
@@ -48,12 +48,14 @@ paths:
           required: true
       tags:
         - product endpoints
+      security:
+        - app_id: []
     post:
       summary: ''
       operationId: post-products
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
       description: To register parent product
       requestBody:
         content:
@@ -63,6 +65,8 @@ paths:
         description: ''
       tags:
         - product endpoints
+      security:
+        - app_id: []
   /products/child-products:
     parameters: []
     get:
@@ -134,12 +138,14 @@ paths:
           in: query
           name: date
           required: true
+      security:
+        - app_id: []
     post:
       summary: ''
       operationId: post-products-parent_product_code-date-child_product_code
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
       description: Registering a child product(support for multiple child products) to a parent product (including a pattern without a parent)
       requestBody:
         content:
@@ -178,6 +184,8 @@ paths:
                   - period_groups
       tags:
         - product endpoints
+      security:
+        - app_id: []
   /products/products-set:
     parameters: []
     get:
@@ -246,12 +254,14 @@ paths:
           in: query
           name: date
           required: true
+      security:
+        - app_id: []
     post:
       summary: ''
       operationId: post-products-products-set
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
       description: Register a set of child products (including patterns without parents)
       requestBody:
         content:
@@ -282,6 +292,8 @@ paths:
                 - child_product_codes
       tags:
         - product endpoints
+      security:
+        - app_id: []
   /products-no-sets:
     get:
       summary: GET No-Set Products endpoint
@@ -309,6 +321,8 @@ paths:
           in: query
           name: date
           required: true
+      security:
+        - app_id: []
     parameters: []
   /products-parent-child-combo:
     get:
@@ -362,6 +376,8 @@ paths:
           in: query
           name: date
           required: true
+      security:
+        - app_id: []
   /products/products-combination:
     get:
       summary: GET Product-Combination endpoint
@@ -391,6 +407,8 @@ paths:
           required: true
       tags:
         - product endpoints
+      security:
+        - app_id: []
     parameters: []
   /contract-company-code:
     get:
@@ -418,6 +436,8 @@ paths:
           name: date
       tags:
         - contract endpoints
+      security:
+        - app_id: []
     parameters: []
   '/contract/history/{contract_code}':
     get:
@@ -435,6 +455,8 @@ paths:
                   $ref: '#/components/schemas/contract-application'
       operationId: get-contract-history
       description: 'Get the history of the contract, given the contract code (including the application number)'
+      security:
+        - app_id: []
     parameters:
       - schema:
           type: string
@@ -502,6 +524,8 @@ paths:
                       type: string
       operationId: get-contracts-related-contract_code
       description: Get a list of related contracts including the specified contract code (Specified contract code can be parent or child)
+      security:
+        - app_id: []
   '/contract/product/{product_code}':
     get:
       summary: GET Contract list for product code
@@ -526,6 +550,8 @@ paths:
           name: date
           description: ''
       description: Get the latest contract list with the specified product code.  Optionally provide a date parameter for filter the list for contracts active for a particular date.
+      security:
+        - app_id: []
     parameters:
       - schema:
           type: string
@@ -556,6 +582,8 @@ paths:
           in: query
           name: application_number
           required: true
+      security:
+        - app_id: []
   '/contract/{contract_code}/application':
     parameters:
       - schema:
@@ -578,14 +606,14 @@ paths:
                   $ref: '#/components/schemas/application'
       operationId: get-contract-contract_code-application
       description: Get the application form with internal number that was generated given the specified contract (contract_code) and the actual application list associated with it.
+      security:
+        - app_id: []
     post:
       summary: ''
       operationId: post-contract-contract_code-application
-      tags:
-        - application endpoint
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -593,8 +621,8 @@ paths:
                 properties:
                   application_form_internal_number:
                     type: string
-        '400':
-          description: Bad Request
+        '409':
+          description: 'Conflict, given application_form_external_number already exists'
       description: |-
         Generate Application form with internal numbering given the application form external number.
         Assuming an associated contract already exists.  Error if associated contract does not exist.
@@ -604,6 +632,8 @@ paths:
           in: query
           name: application_form_external_number
           required: true
+      tags:
+        - application endpoint
   /contract-combination-code:
     get:
       summary: GET Contracts for Combination Code
@@ -630,6 +660,8 @@ paths:
             type: string
           in: query
           name: date
+      security:
+        - app_id: []
   /contract-cancelled-contract-code:
     get:
       summary: GET contracts linked with cancelled contract_code
@@ -652,9 +684,11 @@ paths:
           in: query
           name: contract_code
           required: true
+      security:
+        - app_id: []
   /application:
     post:
-      summary: POST Application endpoint
+      summary: Register a new Application
       operationId: post-application
       responses:
         '200':
@@ -666,6 +700,11 @@ paths:
                 properties:
                   application_form_internal_number:
                     type: string
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
       description: 'Generate Application form with internal numbering given the application form external number. '
       parameters: []
       requestBody:
@@ -692,9 +731,109 @@ paths:
                 - application_form_external_number
             examples:
               example-1: {}
-        description: ''
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                '':
+                  type: string
+          text/html:
+            schema:
+              type: object
+              properties:
+                '':
+                  type: string
+        description: 'Application object which is to be persisted.  '
       tags:
         - application endpoint
+      security:
+        - app_id: []
+  '/company/{company_uniform_code}':
+    parameters:
+      - schema:
+          type: string
+        name: company_uniform_code
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/company'
+      operationId: get-company-company_uniform_code
+      description: This retrieves the specific company record given the company_uniform_code key
+      security:
+        - app_id: []
+      tags:
+        - company endpoint
+    put:
+      summary: Update company information including related addresses
+      operationId: put-company-company_uniform_code
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: 'Not Found: if no company record with the given company_uniform_code was found'
+      description: Update or add specific information for the existing company.  This includes the related corporate office address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/company-address'
+            examples:
+              example-1: {}
+        description: company detail object with an array of address objects each representing the address of a specific corporate office
+      tags:
+        - company endpoint
+      security:
+        - app_id: []
+  /company:
+    post:
+      summary: Create a new company
+      operationId: post-company
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uniform_company_code:
+                    type: string
+        '409':
+          description: 'Conflict, company object with given uniform_company_code already exists'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      tags:
+        - company endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/company'
+      security:
+        - app_id: []
+      description: To register/add a new company to the system.
 components:
   schemas:
     product:
@@ -898,6 +1037,43 @@ components:
         duns_number:
           type: string
       description: corresponding to company table
+    company-address:
+      description: "Each company may have several corporate offices and each office will have it's own address"
+      type: object
+      properties:
+        company:
+          $ref: '#/components/schemas/company'
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/street-address'
+    street-address:
+      title: street-address
+      type: object
+      properties:
+        id:
+          type: string
+        address_applications:
+          type: string
+        address_other:
+          type: string
+        chome:
+          type: string
+        town_area:
+          type: string
+        city:
+          type: string
+        prefectures:
+          type: string
+        postal_code:
+          type: string
+        general_address_code:
+          type: string
+        companies based code:
+          type: string
+        tsr_address_code:
+          type: string
+      description: Address for a specific corporate office
   securitySchemes:
     app_id:
       name: appid
@@ -928,3 +1104,5 @@ tags:
     description: API related to contract API functions
   - name: application endpoint
     description: API related to application API functions
+  - name: company endpoint
+    description: 'API relatred to company API functions such as retrieve, update'
