@@ -22,17 +22,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/product'
-              examples:
-                example-1: {}
-                example-2: {}
-                example-3: {}
             application/xml:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/product'
-              examples:
-                example-1: {}
       operationId: get-products-for-category-date
       description: Get product list for given category and date from master table
       parameters:
@@ -121,8 +115,6 @@ paths:
                   required:
                     - parent_product_code
                     - child_product_code
-              examples:
-                example-1: {}
       operationId: get-child-products-for-parent-date
       description: Get all child products given the product_code and date using the ParentProductLink table
       tags:
@@ -395,8 +387,6 @@ paths:
                     type: string
                 required:
                   - can_register
-              examples:
-                example-1: {}
       operationId: get-products-kk
       description: Returns whether or not the specified set of product codes can be registered (it is better to return the reason(s) why they cannot be registered).
       parameters:
@@ -540,8 +530,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/contract'
-              examples:
-                example-1: {}
       operationId: get-contract
       parameters:
         - schema:
@@ -729,8 +717,6 @@ paths:
                   type: string
               required:
                 - application_form_external_number
-            examples:
-              example-1: {}
           application/xml:
             schema:
               type: object
@@ -790,8 +776,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/company-address'
-            examples:
-              example-1: {}
         description: company detail object with an array of address objects each representing the address of a specific corporate office
       tags:
         - company endpoint
@@ -1034,6 +1018,105 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/area-location'
+  '/search/{entity}/{attribute}/{value}':
+    parameters:
+      - schema:
+          type: string
+        name: entity
+        in: path
+        required: true
+        description: Can refer to name of table resource
+      - schema:
+          type: string
+        name: attribute
+        in: path
+        description: Can refer to name of column in a table resource.  Optional
+        required: true
+      - schema:
+          type: string
+        name: value
+        in: path
+        description: Value of the attribute.  Optional.  If specified returns the specific record/s from the entity table for the preceding attribute
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      operationId: get-search-entity-attribute-value
+      description: "Generic search endpoint where url path \"search\" is modeled as a resource.   Entity is name of table to be search, e.g. master table.   Attribute is the column name while \"Value\" is the value to be searched for.  This will return all the records in the 'entity' table for the column 'attribute' where the 'value' is matched."
+      security:
+        - app_id: []
+      parameters: []
+  '/search/{entity}':
+    parameters:
+      - schema:
+          type: string
+        name: entity
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      operationId: get-search-entity
+      description: 'Generic search endpoint where url parameter search is modeled as a resource.  Followed by {entity} which refers to the name of the table.  This returns all the records in the table referred to by the {entity} url parameter. '
+      security:
+        - app_id: []
+  '/search/{entity}/{attribute}':
+    parameters:
+      - schema:
+          type: string
+        name: entity
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: attribute
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      operationId: get-search-entity-attribute
+      description: Generic search endpoint where url parameter search is modeled as a resource.  Followed by required parameters entity which refers to the table and attribute which refers to the column name.  Also requires query parameters min and max that define the range of values for selected the attribute column.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: min
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: max
+          required: true
+      security:
+        - app_id: []
 components:
   schemas:
     product:
