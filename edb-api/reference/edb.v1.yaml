@@ -1078,6 +1078,30 @@ paths:
       description: 'Generic search endpoint where url parameter search is modeled as a resource.  Followed by {entity} which refers to the name of the table.  This returns all the records in the table referred to by the {entity} url parameter. '
       security:
         - app_id: []
+    post:
+      summary: ''
+      operationId: post-search-entity
+      responses:
+        '200':
+          description: OK
+      description: 'A generic Search API based on modeling Search as a resource.  Url path parameter includes the entity which refers to Table name.  It also uses POST to pass a json request query which includes attributes as column names, values and logical operator.'
+      security:
+        - app_id: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                select:
+                  type: array
+                  items:
+                    type: string
+                where:
+                  type: string
+        description: "A json object that will define for selected entity:\n  1. The columns to be selected\n  2. conditions for selection\n  \n  e.g.,\n  {\n    \"select\" : [\"column1\",\"column2\",...],\n    \"where\" : \"column1 >= 20 AND column2 < 30\"\n  }"
+      tags:
+        - generic search
   '/search/{entity}/{attribute}':
     parameters:
       - schema:
@@ -1536,3 +1560,5 @@ tags:
     description: API related to application API functions
   - name: company endpoint
     description: 'API relatred to company API functions such as retrieve, update'
+  - name: generic search
+    description: Generic search endpoint for customized generic search
