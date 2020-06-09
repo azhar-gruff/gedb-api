@@ -28,7 +28,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/product'
       operationId: get-products-for-category-date
-      description: Get product list for given category and date from master table
+      description: |-
+        Get product list for given category and date from master table.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
@@ -40,6 +42,8 @@ paths:
           in: query
           name: date
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       tags:
         - product endpoints
       security:
@@ -116,7 +120,9 @@ paths:
                     - parent_product_code
                     - child_product_code
       operationId: get-child-products-for-parent-date
-      description: Get all child products given the product_code and date using the ParentProductLink table
+      description: |-
+        Get all child products given the product_code and date using the ParentProductLink table.
+        With support for pagination using offset and count query parameters.
       tags:
         - product endpoints
       parameters:
@@ -130,6 +136,8 @@ paths:
           in: query
           name: date
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
     post:
@@ -234,7 +242,9 @@ paths:
                     - commoditiy_combination_code
                     - product_code
       operationId: get-products-product_code-date-set-products
-      description: Get all the Set of products available to purchase given a product_code and date using the ProductCombinationSupplyMaster table
+      description: |-
+        Get all the Set of products available to purchase given a product_code and date using the ProductCombinationSupplyMaster table.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
@@ -246,6 +256,8 @@ paths:
           in: query
           name: date
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
     post:
@@ -301,7 +313,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/product'
       operationId: get-products
-      description: Returns a list of the parent with no set items in the parent product of specified product category.
+      description: |-
+        Returns a list of the parent with no set items in the parent product of specified product category.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
@@ -313,6 +327,8 @@ paths:
           in: query
           name: date
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
     parameters: []
@@ -341,7 +357,9 @@ paths:
                     - parent_product_code
                     - child_product_code
       operationId: get-products-parent-child-combo
-      description: Returns a list of available ways to purchase the specified parent and child (group) (single item combination of parent and child + child set combination).
+      description: |-
+        Returns a list of available ways to purchase the specified parent and child (group) (single item combination of parent and child + child set combination).
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
@@ -368,6 +386,8 @@ paths:
           in: query
           name: date
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
   /products/products-combination:
@@ -388,13 +408,17 @@ paths:
                 required:
                   - can_register
       operationId: get-products-kk
-      description: Returns whether or not the specified set of product codes can be registered (it is better to return the reason(s) why they cannot be registered).
+      description: |-
+        Returns whether or not the specified set of product codes can be registered (it is better to return the reason(s) why they cannot be registered).
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
           in: query
           name: commodity_combination_code
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       tags:
         - product endpoints
       security:
@@ -413,7 +437,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/contract'
       operationId: get-contract-for-company-code
-      description: Get the currently active contract list given the company code.  Can optionally specify a date to get the contracts for the specific company date.
+      description: "Get the currently active contract list given the company code.  Can optionally specify a date to get the contracts for the specific company date. \nPagination: Can optionally specify the offset and count to get the count records starting at offset.  For example ?offset=0&count=50\nDefault values of offset = 0 ; count = 100; count cannot be greater than 1000"
       parameters:
         - schema:
             type: string
@@ -424,6 +448,8 @@ paths:
             type: string
           in: query
           name: date
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       tags:
         - contract endpoints
       security:
@@ -444,9 +470,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/contract-application'
       operationId: get-contract-history
-      description: 'Get the history of the contract, given the contract code (including the application number)'
+      description: |-
+        Get the history of the contract, given the contract code (including the application number).
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
     parameters:
       - schema:
           type: string
@@ -513,9 +544,14 @@ paths:
                     end_date:
                       type: string
       operationId: get-contracts-related-contract_code
-      description: Get a list of related contracts including the specified contract code (Specified contract code can be parent or child)
+      description: |-
+        Get a list of related contracts including the specified contract code (Specified contract code can be parent or child).
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
   '/contract/product/{product_code}':
     get:
       summary: GET Contract list for product code
@@ -537,7 +573,11 @@ paths:
           in: query
           name: date
           description: ''
-      description: Get the latest contract list with the specified product code.  Optionally provide a date parameter for filter the list for contracts active for a particular date.
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+      description: |-
+        Get the latest contract list with the specified product code.  Optionally provide a date parameter for filter the list for contracts active for a particular date.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
     parameters:
@@ -562,14 +602,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/contract'
       operationId: get-contract-application-application_number
-      description: |
+      description: |-
         Get the contract list that is generated by the given application number.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
           in: query
           name: application_number
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
   '/contract/{contract_code}/application':
@@ -593,9 +636,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/application'
       operationId: get-contract-contract_code-application
-      description: Get the application form with internal number that was generated given the specified contract (contract_code) and the actual application list associated with it.
+      description: |-
+        Get the application form with internal number that was generated given the specified contract (contract_code) and the actual application list associated with it.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
     post:
       summary: ''
       operationId: post-contract-contract_code-application
@@ -637,7 +685,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/contract'
       operationId: get-contract-combination-code
-      description: Get the list of contracts generated by the specified combination code (including the parent contract).  Can optionally specify the date to get the contracts for the specified combination code and date.
+      description: |-
+        Get the list of contracts generated by the specified combination code (including the parent contract).  Can optionally specify the date to get the contracts for the specified combination code and date.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
@@ -648,6 +698,8 @@ paths:
             type: string
           in: query
           name: date
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
   /contract-cancelled-contract-code:
@@ -665,13 +717,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/contract'
       operationId: get-contract-cancelled-contract-code
-      description: Get list of contracts that need to be canceled at the same time as canceling the specified contract code.
+      description: |-
+        Get list of contracts that need to be canceled at the same time as canceling the specified contract code.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
           in: query
           name: contract_code
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
   /application:
@@ -755,11 +811,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/company'
       operationId: get-company-company_uniform_code
-      description: This retrieves the specific company record given the company_uniform_code key
+      description: |-
+        This retrieves the specific company record given the company_uniform_code key.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
       tags:
         - company endpoint
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
     put:
       summary: Update company information including related addresses
       operationId: put-company-company_uniform_code
@@ -872,9 +933,14 @@ paths:
                       items:
                         $ref: '#/components/schemas/company-listed-master'
       operationId: get-company-listed-master
-      description: Get the entire listed-master records with the related company
+      description: |-
+        Get the entire listed-master records with the related company.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
     post:
       summary: ''
       operationId: post-company-listed-master
@@ -917,9 +983,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/company-industry-master'
       operationId: get-company-industry-master
-      description: Get all the company uniform code with their industry code
+      description: |-
+        Get all the company uniform code with their industry code.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
     post:
       summary: Add to company-industry-master
       operationId: post-company-industry-master
@@ -1039,7 +1110,7 @@ paths:
         description: Value of the attribute.  Optional.  If specified returns the specific record/s from the entity table for the preceding attribute
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Generic Search endpoint
       tags: []
       responses:
         '200':
@@ -1051,10 +1122,14 @@ paths:
                 items:
                   type: object
       operationId: get-search-entity-attribute-value
-      description: "Generic search endpoint where url path \"search\" is modeled as a resource.   Entity is name of table to be search, e.g. master table.   Attribute is the column name while \"Value\" is the value to be searched for.  This will return all the records in the 'entity' table for the column 'attribute' where the 'value' is matched."
+      description: |-
+        Generic search endpoint where url path "search" is modeled as a resource.   Entity is name of table to be search, e.g. master table.   Attribute is the column name while "Value" is the value to be searched for.  This will return all the records in the 'entity' table for the column 'attribute' where the 'value' is matched.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
   '/search/{entity}':
     parameters:
       - schema:
@@ -1063,7 +1138,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Generic Search endpoint
       tags: []
       responses:
         '200':
@@ -1075,16 +1150,21 @@ paths:
                 items:
                   type: object
       operationId: get-search-entity
-      description: 'Generic search endpoint where url parameter search is modeled as a resource.  Followed by {entity} which refers to the name of the table.  This returns all the records in the table referred to by the {entity} url parameter. '
+      description: "Generic search endpoint where url parameter search is modeled as a resource.  Followed by {entity} which refers to the name of the table.  This returns all the records in the table referred to by the {entity} url parameter. \nWith support for pagination using offset and count query parameters."
       security:
         - app_id: []
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
     post:
-      summary: ''
+      summary: Generic Search Endpoint using POST
       operationId: post-search-entity
       responses:
         '200':
           description: OK
-      description: 'A generic Search API based on modeling Search as a resource.  Url path parameter includes the entity which refers to Table name.  It also uses POST to pass a json request query which includes attributes as column names, values and logical operator.'
+      description: |-
+        A generic Search API based on modeling Search as a resource.  Url path parameter includes the entity which refers to Table name.  It also uses POST to pass a json request query which includes attributes as column names, values and logical operator.
+        With support for pagination using offset and count query parameters.
       security:
         - app_id: []
       requestBody:
@@ -1102,6 +1182,9 @@ paths:
         description: "A json object that will define for selected entity:\n  1. The columns to be selected\n  2. conditions for selection\n  \n  e.g.,\n  {\n    \"select\" : [\"column1\",\"column2\",...],\n    \"where\" : \"column1 >= 20 AND column2 < 30\"\n  }"
       tags:
         - generic search
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
   '/search/{entity}/{attribute}':
     parameters:
       - schema:
@@ -1115,7 +1198,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Generic Search endpoint
       tags: []
       responses:
         '200':
@@ -1127,7 +1210,9 @@ paths:
                 items:
                   type: object
       operationId: get-search-entity-attribute
-      description: Generic search endpoint where url parameter search is modeled as a resource.  Followed by required parameters entity which refers to the table and attribute which refers to the column name.  Also requires query parameters min and max that define the range of values for selected the attribute column.
+      description: |-
+        Generic search endpoint where url parameter search is modeled as a resource.  Followed by required parameters entity which refers to the table and attribute which refers to the column name.  Also requires query parameters min and max that define the range of values for selected the attribute column.
+        With support for pagination using offset and count query parameters.
       parameters:
         - schema:
             type: string
@@ -1139,6 +1224,8 @@ paths:
           in: query
           name: max
           required: true
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
       security:
         - app_id: []
 components:
@@ -1543,6 +1630,27 @@ components:
       schema:
         type: string
       required: true
+    count:
+      name: count
+      in: query
+      description: Number of records to be returned.  Default is 100 and maximum limit is 1000. Must be greater than 0.
+      schema:
+        type: integer
+        default: 100
+        example: 0
+        exclusiveMinimum: true
+        minimum: 0
+        maximum: 1000
+      required: false
+    offset:
+      name: offset
+      in: query
+      description: 'Start returning records starting from this record number, inclusive.  Must be greater than or equal to 0.  0 means there is no offset.  Default value is 0.'
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+      required: false
   securitySchemes:
     app_id:
       name: appid
