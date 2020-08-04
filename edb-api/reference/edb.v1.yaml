@@ -794,15 +794,15 @@ paths:
         - application endpoint
       security:
         - app_id: []
-  '/company/{company_uniform_code}':
+  '/company/{company_code}':
     parameters:
       - schema:
           type: string
-        name: company_uniform_code
+        name: company_code
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get Company using company_code
       responses:
         '200':
           description: OK
@@ -811,16 +811,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/company'
       operationId: get-company-company_uniform_code
-      description: |-
-        This retrieves the specific company record given the company_uniform_code key.
-        With support for pagination using offset and count query parameters.
+      description: |
+        This retrieves the specific company record using the company_code key.
       security:
         - app_id: []
       tags:
         - company endpoint
-      parameters:
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/count'
+      parameters: []
     put:
       summary: Update company information including related addresses
       operationId: put-company-company_uniform_code
