@@ -773,22 +773,11 @@ paths:
                   type: string
               required:
                 - application_form_external_number
+            examples: {}
           application/xml:
             schema:
               type: object
               properties: {}
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                '':
-                  type: string
-          text/html:
-            schema:
-              type: object
-              properties:
-                '':
-                  type: string
         description: 'Application object which is to be persisted.  '
       tags:
         - application endpoint
@@ -876,16 +865,16 @@ paths:
       security:
         - app_id: []
       description: To register/add a new company to the system.
-  '/company/{uniform_company_code}/corporate-office':
+  '/company/{company_code}/corporate-office':
     parameters:
       - schema:
           type: string
-        name: uniform_company_code
+        name: company_code
         in: path
         required: true
     post:
-      summary: Add company corporate office and address for given company code
-      operationId: post-company-uniform_company_code-corporate_office
+      summary: Add company corporate office base and address for given company code
+      operationId: post-company-company-code-corporate_office
       responses:
         '201':
           description: "Created and return an array of company_based_code for each corporate-office and it's associated street address"
@@ -897,7 +886,7 @@ paths:
                   type: string
         '404':
           description: 'Not Found: If the uniform_company_code was not found'
-      description: "To add new corporate office and it's address information"
+      description: "To add new corporate office base and it's address information"
       security:
         - app_id: []
       requestBody:
@@ -1372,8 +1361,9 @@ components:
     company:
       title: company
       type: object
+      description: corresponding to company table
       properties:
-        company_uniform_code:
+        company_code:
           type: string
         sb_own_enterprise_risk_score:
           type: integer
@@ -1429,7 +1419,8 @@ components:
           type: string
         duns_number:
           type: string
-      description: corresponding to company table
+      required:
+        - company_uniform_code
     company-address:
       description: "Each company may have several corporate offices and each office will have it's own address"
       type: object
