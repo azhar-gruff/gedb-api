@@ -1097,7 +1097,8 @@ paths:
         required: true
     get:
       summary: Generic Search endpoint
-      tags: []
+      tags:
+        - generic search
       responses:
         '200':
           description: OK
@@ -1125,7 +1126,8 @@ paths:
         required: true
     get:
       summary: Generic Search endpoint
-      tags: []
+      tags:
+        - generic search
       responses:
         '200':
           description: OK
@@ -1185,7 +1187,8 @@ paths:
         required: true
     get:
       summary: Generic Search endpoint
-      tags: []
+      tags:
+        - generic search
       responses:
         '200':
           description: OK
